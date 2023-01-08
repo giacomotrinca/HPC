@@ -4,7 +4,10 @@
 \usepackage{graphicx}
 \usepackage{verbatim}
 \usepackage{fancyvrb}
+\usepackage{amsthm}
 
+%Newcommands
+\newtheorem{esempio}[section]{Esempio}
 
 \begin{document}
 \title{\sc Linux per High Performance Computing}
@@ -465,8 +468,9 @@ Possiamo sospendere un comando che è stato mandato nella shell utilizzando la c
 \end{verbatim}
 dove il \verb*|job-ID| è diverso dal \verb*|PID|, e può essere visualizzato con il comando \verb*|jobs|.
 
-\chapter{L'editor di testo VIM}
+\chapter{Strumenti e Utilities}
 
+\section{L'editor di testo VIM}
 L'editor di testo predefinito di Linux si chiama \verb*|vi|. Questo ha anche una versione migliorata: \verb*|vim| (\verb*|vi| improved). Esso è un editor da console, ovvero non viene lanciata una finestra grafica, ma il file viene editato direttamente all'interno della shell bash.\\
 Tra i vantaggi troviamo
 \begin{itemize}
@@ -505,6 +509,109 @@ Da \verb*|vi| mantiene la caratteristica di essere modale, ovvero di avere modal
  			\item \verb*|b| per saltare alla parola precedente
  			\item \verb*|%| per saltare al carattere corrispondente, ad esempio \verb*|(...),[...],{...}|
  		\end{itemize}
+ 	\item Modifica del testo:
+ 		\begin{itemize}
+ 			\item \verb*|u|: annulla l'ultima modifica
+ 			\item \verb*|Ctrl + r|: rifai l'ultima modifica
+ 			\item \verb*|.|: ripeti l'ultimo comando
+ 			\item \verb*|x|: cancella carattere
+ 			\item \verb*|dd|: elimina l'intera riga
+ 			\item \verb*|yy| o \verb*|Y|: copia l'intera riga
+ 			\item \verb*|p|: incolla contenuto dopo il cursore
+ 		\end{itemize}
+ 	\item Ricerca:
+ 		\begin{itemize}
+ 			\item \verb*|/pattern|: vai avanti nella ricerca per espressioni regolari
+ 			\item \verb*|?pattern|: vai indietro nella ricerca espressioni regolari
+ 			\item \verb*|n|: ripeti l'ultima ricerca
+ 			\item \verb*|N|: ripeti l'ultima ricerca nella direzione opposta
+ 			\item \verb*|%s/old/new/|: sostituisce \verb*|old| con \verb*|new| nella riga corrente
+ 			\item \verb*|%s/old/new/g|: sostituisce \verb*|old| con \verb*|new| nell'intero file		
+ 		\end{itemize}
  \end{itemize}
+
+
+\section{Shell Scripts}
+Una volta che sappiamo come interagire con la la shell di Linux, sappiamo anche dare una serie di istruzioni, e salvare queste in un file eseguibile. Questi sono detti \textit{scripts}. Questo file di testo viene dato in input nel terminale, ed esso eseguirà tutte le istruzioni contenute al suo interno. Il vantaggio di questo metodo di scripting è ovviamente l'automazione di alcune operazioni che viene fatta molto semplicemente scrivendo le istruzioni. Lo svantaggio, se così si può dire, è che non sappiamo della presenza di errori fino al momento in cui lo script non viene lanciato nel terminale. \\
+Per eseguire uno script \verb*|.sh| basta scrivere nel terminale:
+\begin{verbatim}
+	./script.sh
+\end{verbatim}
+avendo cura che l'utente abbia il permesso di eseguire il file nella shell.\\
+Come vediamo dalla sintassi, dobbiamo specificare in che cartella si trova il nostro script, infatti nel nostro caso abbiamo identificato la working directory con \verb*|./|. Questo perché Linux cerca i comandi nella cartella in cui siamo, al massimo nelle directories incluse nella variabile di ambiente della \verb*|$PATH|\footnote{Approfondiremo il concetto e gli utilizzi delle variabili d'ambiente successivamente.} per questioni di sicurezza. Vediamo un primo esempio di script bash.
+\begin{esempio}
+	\begin{verbatim}
+		\\
+		1 #!/bin/bash
+		2
+		3 #Questo è un commento
+		4 echo "Hello World"
+		5
+		6 ls -l
+		7 sleep 3s
+		8 ls \
+		9  -l
+	\end{verbatim}
+\end{esempio}
+
+Nella riga \verb*|1| viene specificato l'interprete di \verb*|bash|. Questa direttiva deve trovarsi sempre nella prima riga di ogni script. Esso si specifica con il carattere utilizzato per i commenti, \verb*|#| seguito dal punto esclamativo \verb*|!|. Vediamo che alla riga \verb*|8| c'è il simbolo \verb*|\|. Esso specifica che il comando continua a capo. \\
+Durante l'esecuzione degli script verrà stampato sulla console l'output di tutti i comandi. Utilizzando le redirezioni possiamo, ovviamente, stampare su file tali output. \\
+Possiamo assegnare un valore ad una variabile tramite l'operazione binaria \verb*|=|. 
+\begin{verbatim}
+	var="valore"
+\end{verbatim}
+dove notiamo che ai lati del simbolo \verb*|=| non vi sono spazi. I simboli \verb*|"..."| servono quando nel valore vi sono degli spazi o dei caratteri speciali. \\
+Possiamo stampare il valore di \verb*|var| con
+\begin{verbatim}
+	echo $var
+\end{verbatim}	
+Un errore comune che viene commesso durante l'assegnazione delle variabili è confondere il ruolo delle doppie virgolette e quello delle singole virgolette.\\
+Utilizzando le singole virgolette verrà assegnata alla variabile il contenuto esatto. Ad esempio scrivendo:
+\begin{verbatim}
+	var='$ciao'
+\end{verbatim}
+nella variabile \verb*|var| ci sarà la stringa \verb*|$ciao|, mentre usando
+\begin{verbatim}
+	var1='ciao'
+	var2="$var1"
+\end{verbatim}
+nella variabile \verb*|var2| ci sarà il valore effettivo di \verb*|var1|, che è in questo caso la stringa \verb*|ciao|. Se racchiudiamo tra parentesi un comando, esso verrà primo eseguito. Ad esempio digitando
+\begin{verbatim}
+	var=$(bla)
+\end{verbatim}
+verrà prima eseguito il comando \verb*|bla| e il suo output verrà memorizzato nella variabile \verb*|var|.\\
+Possiamo passare degli argomenti quando eseguiamo lo script dal terminale. Ad esempio digitando:
+\begin{verbatim}
+	./script.sh -f 5.0
+\end{verbatim}
+nello script avremo le seguenti variabili assegnate
+\begin{verbatim}
+	$0=script.sh
+	$1=-f
+	$2=5.0
+\end{verbatim}
+Possiamo inoltre usufruire dei ciclo e degli statements \verb*|if|
+\begin{esempio}
+	\begin{verbatim}
+		#!/bin/bash
+		for file in $( ls ); do
+			echo item: $file
+		done
+		
+		if[ -e $filename ]; then
+			echo "$filename exists."
+		fi
+	\end{verbatim}
+\end{esempio}
+
+
+
+\chapter{Variabili D'Ambiente}
+
+
+
+
+
+
 
 \end{document}

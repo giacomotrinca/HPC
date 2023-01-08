@@ -18,4 +18,7 @@
 \contentsline {section}{\numberline {4.1}Permessi}{25}{}%
 \contentsline {subsection}{\numberline {4.1.1}Cambiare i permessi}{27}{}%
 \contentsline {section}{\numberline {4.2}Gestione dei Processi}{27}{}%
-\contentsline {chapter}{\numberline {5}L'editor di testo VIM}{31}{}%
+\contentsline {chapter}{\numberline {5}Strumenti e Utilities}{31}{}%
+\contentsline {section}{\numberline {5.1}L'editor di testo VIM}{31}{}%
+\contentsline {section}{\numberline {5.2}Shell Scripts}{33}{}%
+\contentsline {chapter}{\numberline {6}Variabili D'Ambiente}{37}{}%
