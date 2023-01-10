@@ -26,5 +26,15 @@ I Introduzione a Linux
 4.1 Permessi . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
 4.1.1 Cambiare i permessi . . . . . . . . . . . . . . . . . . . 27
 4.2 Gestione dei Processi . . . . . . . . . . . . . . . . . . . . . . . 27
-5 L’editor di testo VIM
 
+5 Strumenti e Utilities
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+5.1 L’editor di testo VIM . . . . . . . . . . . . . . . . . . . . . . 31
+5.2 Shell Scripts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+
+6 Variabili di Ambiente
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+6.1 Caratteristiche . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+6.1.1 Moduli di Ambiente . . . . . . . . . . . . . . . . . . . 38
+6.2 Esempi di utilizzo . . . . . . . . . . . . . . . . . . . . . . . . . 39
+6.3 Variabili di Ambiente notevoli . . . . . . . . . . . . . . . . . .39
