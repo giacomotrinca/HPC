@@ -784,7 +784,7 @@ Altri files danno maggiori informazioni, ad esempio:
 	\item \verb*|/proc/devices| attualmente configurati e caricati : Visualizza tutti i dispositivi di caratteri e blocchi . 
 	\item \verb*|/proc/ide| e \verb*|/proc/scsi|: forniscono dati su dispositivi \verb*|IDE| e \verb*|SCSI|.
 	\item \verb*|/proc/ioports| : mostra informazioni sulle regioni utilizzate per la comunicazione \verb*|I/O| con tali dispositivi.
-	\item \verb*|/proc/dma| : Mostra i canali Direct Memory Access in uso.
+	\item \verb*|/proc/dma| : Mostra i canali Direct Memory Access\footnote{E' quel meccanismo che permette ad altri sottosistemi, quali ad esempio le periferiche, di accedere direttamente alla memoria interna per scambiare dati.} in uso.
 	\item \verb*|/proc/filesystems|: mostra quali tipi di filesystem sono supportati dal nostro kernel. Il file è fatto più o meno in questo modo:
 	\begin{verbatim}
 		nodev sysfs
@@ -804,11 +804,12 @@ Altri files danno maggiori informazioni, ad esempio:
 
 \end{itemize}
 \subsection{Informazioni su CPU e RAM}
+Vi sono due files in \verb*|/proc| che sono molto utili. Essi ci danno informazioni sulla memoria \verb*|RAM| e sulla \verb*|cpu|. Vediamo cosa contengono.\\
  Ad esempio:
 \begin{verbatim}
 	cat /proc/cpuinfo
 \end{verbatim}
-da come risultato un output simile a questo, ripetuto per ogni \verb*|thread| del processore. 
+dà come risultato un output simile a questo, ripetuto per ogni \verb*|thread| del processore. 
 \begin{verbatim}
 	processor	: 0
 	vendor_id	: GenuineIntel
@@ -858,8 +859,47 @@ che dà come risultato le informazioni riguardanti la memoria \verb*|RAM|:
 	.
 \end{verbatim}
 
+\section{Configurazione della Shell}
+\subsection{Il file .bashrc}
+Il file .bashrc è un file di script che viene eseguito quando un utente effettua il login. Il file stesso contiene una serie di configurazioni per la sessione del terminale. Ciò include la palette di colori, funzionalità di autocompletamento dei comandi, cronologia della shell, aliases per i comandi e altro. Esso ha una forma di base del tipo:
+\begin{verbatim}
+	# .bashrc
+	
+	# Source global definitions
+	if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+	fi
+	
+	# User specific environment
+	if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+	then
+	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+	fi
+	PS1='\u@\h\$'
+	
+\end{verbatim}
+Possiamo editare il file \verb*|.bashrc| aprendolo con un editor di testo, ad esempio
+\begin{verbatim}
+	vi ~/.bashrc
+\end{verbatim}
 
-
-
-
+Possiamo implementare delle funzioni all'interno di questo file. Ad esempio, se vogliamo stampare più informazioni sulla data del semplice comando \verb*|date|, possiamo aggiungere alla fine del file una funzione \verb*|today()|:
+\begin{verbatim}
+	today()
+	{
+		echo Oggi è `date +"%A %d di %B dell'anno %Y (%r)"` return
+	}
+\end{verbatim}
+In questo modo \verb*|today| diventerà come un comando per la nostra console. Per rendere effettive le modifiche al file \verb*|.bashrc| dobbiamo caricare di nuovo il file nella nostra console digitando:
+\begin{verbatim}
+	source ~/.bashrc
+\end{verbatim}
+Una funzione molto utile è la seguente. Di solito, quando creiamo una nuova cartella con \verb*|mkdir| poi vogliamo spostarci all'interno di essa. Per automatizzare questo processo possiamo creare una nuova funzione:
+\begin{verbatim}
+	mkcd ()
+	{
+		mkdir -p -- "$1" && cd -P -- "$1"
+	}
+\end{verbatim}
+Vediamo che in questo caso la modifica comporta dei cambianti sostanziali. Le opzioni \verb*|"$1"| indicano il parametro che digitiamo subito dopo il nuovo comando \verb*|mkcd|. Questo parametro sarà ovviamente il nome della cartella che stiamo creando e nella quale ci sposteremo. 
 \end{document}

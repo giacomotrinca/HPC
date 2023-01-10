@@ -43,3 +43,5 @@
 \contentsline {chapter}{\numberline {7}Informazioni e Configurazione di Sistema}{45}{chapter.7}%
 \contentsline {section}{\numberline {7.1}La cartella /proc}{45}{section.7.1}%
 \contentsline {subsection}{\numberline {7.1.1}Informazioni su CPU e RAM}{47}{subsection.7.1.1}%
+\contentsline {section}{\numberline {7.2}Configurazione della Shell}{48}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Il file .bashrc}{48}{subsection.7.2.1}%
