@@ -1,24 +1,28 @@
 \babel@toc {italian}{}\relax 
 \babel@toc {italian}{}\relax 
-\contentsline {part}{I\hspace {1em}Introduzione a Linux}{5}{}%
-\contentsline {chapter}{\numberline {1}Linux - Cenni Storici}{7}{}%
-\contentsline {section}{\numberline {1.1}Predecessori di Linux}{7}{}%
-\contentsline {subsection}{\numberline {1.1.1}1969 - Unix}{7}{}%
-\contentsline {subsection}{\numberline {1.1.2}1990 - POSIX Standard}{7}{}%
-\contentsline {section}{\numberline {1.2}GNU/LINUX}{7}{}%
-\contentsline {subsection}{\numberline {1.2.1}Distribuzioni Notevoli}{8}{}%
-\contentsline {chapter}{\numberline {2}Riga di Comando}{11}{}%
-\contentsline {subsection}{\numberline {2.0.1}Elementi della shell}{12}{}%
-\contentsline {chapter}{\numberline {3}Struttura delle Cartelle in Linux}{15}{}%
-\contentsline {section}{\numberline {3.1}Struttura ad albero - Filesystem Tree}{15}{}%
-\contentsline {subsection}{\numberline {3.1.1}Gestione dei Files}{18}{}%
-\contentsline {section}{\numberline {3.2}Canali I/O}{20}{}%
-\contentsline {subsection}{\numberline {3.2.1}Visualizzazione e Ricerca}{23}{}%
-\contentsline {chapter}{\numberline {4}Utenti e Processi}{25}{}%
-\contentsline {section}{\numberline {4.1}Permessi}{25}{}%
-\contentsline {subsection}{\numberline {4.1.1}Cambiare i permessi}{27}{}%
-\contentsline {section}{\numberline {4.2}Gestione dei Processi}{27}{}%
-\contentsline {chapter}{\numberline {5}Strumenti e Utilities}{31}{}%
-\contentsline {section}{\numberline {5.1}L'editor di testo VIM}{31}{}%
-\contentsline {section}{\numberline {5.2}Shell Scripts}{33}{}%
-\contentsline {chapter}{\numberline {6}Variabili D'Ambiente}{37}{}%
+\contentsline {part}{I\hspace {1em}Introduzione a Linux}{5}{part.1}%
+\contentsline {chapter}{\numberline {1}Linux - Cenni Storici}{7}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Predecessori di Linux}{7}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}1969 - Unix}{7}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}1990 - POSIX Standard}{7}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}GNU/LINUX}{7}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Distribuzioni Notevoli}{8}{subsection.1.2.1}%
+\contentsline {chapter}{\numberline {2}Riga di Comando}{11}{chapter.2}%
+\contentsline {subsection}{\numberline {2.0.1}Elementi della shell}{12}{subsection.2.0.1}%
+\contentsline {chapter}{\numberline {3}Struttura delle Cartelle in Linux}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Struttura ad albero - Filesystem Tree}{15}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Gestione dei Files}{18}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Canali I/O}{20}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Visualizzazione e Ricerca}{23}{subsection.3.2.1}%
+\contentsline {chapter}{\numberline {4}Utenti e Processi}{25}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Permessi}{25}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Cambiare i permessi}{27}{subsection.4.1.1}%
+\contentsline {section}{\numberline {4.2}Gestione dei Processi}{27}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Strumenti e Utilities}{31}{chapter.5}%
+\contentsline {section}{\numberline {5.1}L'editor di testo VIM}{31}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Shell Scripts}{33}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Variabili di Ambiente}{37}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Caratteristiche}{37}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Moduli di Ambiente}{38}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}Esempi di utilizzo}{39}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Variabili di Ambiente notevoli}{39}{section.6.3}%

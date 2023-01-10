@@ -5,6 +5,7 @@
 \usepackage{verbatim}
 \usepackage{fancyvrb}
 \usepackage{amsthm}
+\usepackage{hyperref}
 
 %Newcommands
 \newtheorem{esempio}[section]{Esempio}
@@ -606,8 +607,41 @@ Possiamo inoltre usufruire dei ciclo e degli statements \verb*|if|
 
 
 
-\chapter{Variabili D'Ambiente}
+\chapter{Variabili di Ambiente}
+Le variabili d'ambiente, nei sistemi Unix-like, e più in generale negli ambienti \verb*|POSIX| sono delle variabili specifiche per ogni processo. Ogni processo possiede il proprio insieme di variabili d'ambiente distinto e separato da quello degli altri processi, ed in nessun caso un processo può modificare le variabili d'ambiente di un altro processo; esse tuttavia si propagano, duplicandosi, di processo padre in processo figlio. \\
+Le variabili d'ambiente hanno un ruolo tradizionalmente significativo nella configurazione dei programmi: esse sono usate ad esempio per specificare le impostazioni di localizzazione, o per indicare ad un programma le directory ove reperire le proprie risorse, o ancora per modificarne il comportamento predefinito. \\
+\section{Caratteristiche}
+Possiamo assegnare una variabile di ambiente ad un processo\footnote{Ogni processo ha la sua lista di variabili che possiamo assegnare.} o direttamente alla shell. Ad esempio, per la console del terminale la variabile di ambiente \verb*|HOME| si può stampare su schermo con il comando:
+\begin{verbatim}
+	echo $HOME
+\end{verbatim}
+che darà come risultato
+\begin{verbatim}
+	/home/nome_utente
+\end{verbatim}
 
+Le variabili di ambiente sono molto utili per la creazione di script, in quanto possiamo modificare le cose localmente. Ad esempio è possibile impostare percorsi differenti per librerie diverse. Supponiamo di voler lanciare un codice con alcune librerie su due diverse architetture di processori. Grazie alle variabili di ambiente possiamo configurare le librerie che il nostro codice utilizza prima della compilazione, in questo modo se andiamo a compilare il nostro codice su un'architettura \verb*|arm64| o \verb*|amd64|, non dobbiamo cambiare il codice, ma solamente il percorso delle librerie che saranno differenti per ogni architettura.\\
+
+Molte variabili di ambiente vengono inizializzate quando il sistema operativo viene installato, ad esempio la variabile \verb*|HOME| che abbiamo visto prima, oppure la variabile \verb*|USER|, mentre alcune variabili di ambiente vengono assegnate quando installiamo del software, ad esempio delle librerie grafiche, o il compilatore \verb*|gcc/g++|.\\
+Per visualizzare tutte le variabili di ambiente impostate basta utilizzare il comando \verb*|env|. Per crearne una nuova, si utilizza la convenzione di definirle in maiuscolo, ad esempio:
+\begin{verbatim}
+	export MY_VAR="value"
+\end{verbatim}
+
+D'ora in poi la variabile \verb*|MY_VAR| sarà disponibile nei processi figlio. 
+
+\subsection{Moduli di Ambiente}
+In un contesto cluster, è molto probabile, data la mole di utenti con differenti esigenze, che siano necessarie diverse versioni dello stesso software. Un esempio è il modulo \verb*|OpenMPI|. Per adattarsi alle differenti esigenze, potrebbe essere necessario utilizzare una o l'altra versione dello stesso compilatore. Per risolvere il problema, si possono costruire più ambienti, dove le variabili assumono valori diversi. Questo viene fatto perché in linea di principio un amministratore del sistema non sa cosa serve all'utente, e quindi è meglio dare la possibilità di caricare diverse versioni dello stesso modulo. Ad esempio:
+\begin{verbatim}
+	module load openmpi/gcc/64/1.10.3
+\end{verbatim}
+carica il modulo \verb*|OpenMPI| compilato con \verb*|gcc| per sistemi \verb*|x64| nella versione \verb*|1.10.3|. \\
+Ad ogni modulo viene generalmente associato un file di definizione, che può essere uno script \verb*|LUA|\footnote{\hyperref{https://www.lua.org/}{docu}{LUA}{Documentazione LUA}} o \verb*|Tcl|\footnote{\hyperref{https://www.tcl.tk/}{docu}{tcl}{Documentazione Tcl}}.
+
+
+\section{Esempi di utilizzo}
+
+\section{Variabili di Ambiente notevoli}
 
 
 
