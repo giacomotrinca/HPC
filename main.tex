@@ -629,7 +629,12 @@ Per visualizzare tutte le variabili di ambiente impostate basta utilizzare il co
 \end{verbatim}
 
 D'ora in poi la variabile \verb*|MY_VAR| sarà disponibile nei processi figlio. 
+\subsection{Vincoli}
+Le variabili d'ambiente sono implementate come un array di stringhe\footnote{Ovvero come delle frasi.} secondo le convenzioni del linguaggio C\footnote{\hyperref{https://en.cppreference.com/w/c/language}{docu}{C}{Documentazione linguaggio C.}}, nella forma \verb*|"nome=valore"|: questo implica sia che i nomi non possano contenere il carattere \verb*|"="|, sia che né il nome né il valore possano contenere il carattere \verb*|ASCII 0x00, NUL|. Due nomi sono considerati uguali solo se contengono esattamente gli stessi caratteri, per cui viene ad esempio fatta distinzione tra lettere maiuscole e minuscole.
 
+A parte questi vincoli, la scelta di nomi per variabili d'ambiente è anche fortemente influenzata dai vincoli di sintassi delle shell testuali, che di fatto restringono la scelta a nomi composti da una lettera o un trattino basso (\verb*|"_"|) seguiti da zero o più lettere, cifre e trattini bassi, ad esempio "A", \verb*|"_Alice_12", "file_temporaneo"|. Possono esistere variabili che non seguono queste convenzioni nei nomi, tuttavia ciò ne rende alquanto difficile l'utilizzo pratico.
+
+Non vi sono limiti sulle dimensioni massime ed il numero delle variabili d'ambiente, se non quelli dettati dalla disponibilità di memoria; tuttavia le chiamate di sistema della famiglia \verb*|exec|, che sostituiscono il processo invocante con un altro programma, possono fallire se lo spazio totale occupato delle variabili d'ambiente di un processo, unitamente allo spazio occupato dei parametri per il nuovo programma, supera la dimensione in byte definita della costante \verb*|ARG_MAX| definita nello header file \verb*|limits.h|. Il valore minimo di tale costante per lo standard \verb*|POSIX| è di \verb*|4096 byte|, definito dalla costante \verb*|_POSIX_ARG_MAX|.
 \subsection{Moduli di Ambiente}
 In un contesto cluster, è molto probabile, data la mole di utenti con differenti esigenze, che siano necessarie diverse versioni dello stesso software. Un esempio è il modulo \verb*|OpenMPI|. Per adattarsi alle differenti esigenze, potrebbe essere necessario utilizzare una o l'altra versione dello stesso compilatore. Per risolvere il problema, si possono costruire più ambienti, dove le variabili assumono valori diversi. Questo viene fatto perché in linea di principio un amministratore del sistema non sa cosa serve all'utente, e quindi è meglio dare la possibilità di caricare diverse versioni dello stesso modulo. Ad esempio:
 \begin{verbatim}
@@ -638,14 +643,118 @@ In un contesto cluster, è molto probabile, data la mole di utenti con different
 carica il modulo \verb*|OpenMPI| compilato con \verb*|gcc| per sistemi \verb*|x64| nella versione \verb*|1.10.3|. \\
 Ad ogni modulo viene generalmente associato un file di definizione, che può essere uno script \verb*|LUA|\footnote{\hyperref{https://www.lua.org/}{docu}{LUA}{Documentazione LUA}} o \verb*|Tcl|\footnote{\hyperref{https://www.tcl.tk/}{docu}{tcl}{Documentazione Tcl}}.
 
+\section{Esempi di utilizzo nella shell testuale.}
+Nelle shell testuali è possibile usare il comando env sia per visualizzare le impostazioni correnti, sia per avviare nuovi programmi con valori particolari delle variabili d'ambiente.
 
-\section{Esempi di utilizzo}
+In aggiunta a questo, per le shell derivate dalla Bourne shell come Bash o la Korn shell, il meccanismo delle variabili della shell si sovrappone in parte a quello delle variabili d'ambiente, per cui le variabili d'ambiente sono automaticamente anche variabili della shell, e le variabili della shell possono a loro volta divenire variabili d'ambiente (ad esempio tramite il comando \verb*|"export nome_variabile"|). Ad esempio:
 
-\section{Variabili di Ambiente notevoli}
+\begin{esempio}
+	Script \verb*|bash| di esempio per manipolare le variabili di ambiente.
+	\begin{verbatim}
+		#!/bin/bash
+		
+		# PATH è una variabile di ambiente già avvalorata
+		# e la si può usare come qualsiasi altra variabile
+		# di shell
+		echo "$PATH"
+		
+		# MY_VAR è una variabile di shell che non esisteva in precedenza. 
+		# I comandi avviati non ne hanno visibilità, se non passandola 
+		# esplicitamente come parametro.
+		MY_VAR=123
+		echo "$MY_VAR"
+		
+		# Cerchiamo MY_VAR tra le variabili di 
+		# ambiente (non la troveremo).
+		env | grep "^MY_VAR="
+		
+		# Con il comando export è possibile rendere MY_VAR anche una variabile di
+		# ambiente, automaticamente visibile ai comandi avviati in seguito. 
+		export MY_VAR
+		
+		# Cerchiamo nuovamente MY_VAR tra le variabili di 
+		# ambiente (ora invece la troveremo).
+		env | grep "^MY_VAR="
+		
+		# Le shell più comuni (Bash e Korn shell) permettono
+		# di combinare il comando export con una assegnazione,
+		# ad esempio con
+		export MY_VAR="nuovo valore"
+		
+		# Attenzione: a differenza di MS-DOS, impostare una variabile di
+		# ambiente ad un valore vuoto non la cancella. Essa continua
+		# ad esistere, solo che ha un valore vuoto.
+		export MY_VAR=
+		env | grep "^MY_VAR="
+		
+		# Per eliminare del tutto una variabile di
+		# ambiente occorre usare il comando "unset"
+		unset MY_VAR
+	\end{verbatim}
+\end{esempio}
+
+\section{Variabili di ambiente notevoli}
+\subsection{EDITOR e VISUAL}
+Queste variabili suggeriscono il comando da usare per avviare un editor di testo per modificare un file di testo.\\
+Valori tipici possono essere "vi", "emacsclient" o anche "gedit" 
+\subsection{ENV}
+Questa variabile indica il nome di uno script di shell da eseguire ad ogni avvio in modalità interattiva della shell, in aggiunta ad altri script eseguiti automaticamente all'avvio in seguito alla procedura di login.\\
+Valori tipici possono essere ad esempio \verb*|"~/.bashrc"| o \verb*|"~/.kshrc"|. 
+\subsection{HOME}
+Normalmente viene avvalorata automaticamente dal sistema con il pathname della home directory dell'utente corrente. 
+
+\subsection{http proxy e ftp proxy}
+ Queste variabili indicano quale proxy usare per connessioni HTTP e FTP. Ad esempio, in uno script di shell: 
+ \begin{verbatim}
+ 	# Proxy HTTP che richiede autenticazione
+ 	http_proxy="http://utente:password@proxy:8080"
+ 	export http_proxy
+ 	
+ 	# Proxy HTTP che non richiede autenticazione
+ 	http_proxy="http://proxy:8080"
+ 	export http_proxy
+ \end{verbatim}
+
+\subsection{LANG}
+Questa variabile specifica le impostazioni locali, come lingua da usare per l'interfaccia utente, convenzioni su formato di data e ora, rappresentazione dei numeri, codifica dei carattere in uso e altro ancora. Viene usata per specificare le impostazioni predefinite di sistema.
+
+I valori possibili per \verb*|LANG| sono quelli elencati dal comando "locale -a", ad esempio \verb*|"it_IT.UTF-8"|, o \verb*|"C"|.
+
+\verb*|LANG| è solo una delle variabili d'ambiente che controllano la localizzazione: ne esistono altre che trattano aspetti specifici (ad esempio \verb*|LC_MONETARY|, \verb*|LC_MESSAGES|, \verb*|LC_NUMERIC|) ed hanno precedenza su \verb*|LANG|. In particolare esiste anche \verb*|LC_ALL| che ha precedenza su tutte le altre (anche su \verb*|LANG|) e che può essere usata per specificare rapidamente l'uso di una localizzazione diversa da quella predefinita. 
+
+\subsection{LD LIBRARY PATH}
+Nei sistemi che adottano \verb*|ELF|\footnote{ELF(Executable and Linkable Format) è un formato file standard per eseguibili, codice oggetto, librerie condivise e core dump.} come formato dei file eseguibili, \verb*|LD_LIBRARY_PATH| indica al \verb*|linker| dinamico una serie di directory separate da due punti (\verb*|":"|) in cui cercare librerie software in aggiunta a quelle predefinite nel sistema. 
+
+\subsection{LD PRELOAD}
+Nei sistemi che adottano ELF come formato dei file eseguibili, \verb*|LD_PRELOAD| indica al \verb*|linker| dinamico una o più librerie software da precaricare, in aggiunta a quelle richieste dal programma.\\
+Questo meccanismo è utile per usare librerie che ridefiniscono l'implementazione di funzioni standard, e che ad esempio possono permettere di accedere in maniera trasparente a file compressi o tenere traccia di tutte le allocazioni di memoria effettuate. 
+
+\subsection{MANPATH}
+Specifica una serie di directory separate da due punti ("\verb|:|") in cui cercare delle pagine man, in aggiunta a quelle predefinite nel sistema. 
+
+\subsection{PATH}
+Specifica una serie di directory separate da due punti ("\verb*|:|") in cui il sistema ricerca file eseguibili quando essi non sono qualificati con alcuna directory.
+
+Un valore tipico è "\verb*|/bin:/usr/bin:/usr/local/bin|", ma varia da sistema a sistema.
+
+È da sottolineare che per motivi di sicurezza, nei sistemi Unix e Unix-like la directory corrente (rappresentata con un punto ".") non viene automaticamente inclusa tra quelle in cui effettuare la ricerca: se si vuole includerla, occorre specificarla esplicitamente nel valore di \verb*|PATH|. 
+
+\subsection{POSIXLY CORRECT}
+
+Se è definita (il valore non è rilevante), i programmi del progetto \verb*|GNU| si comportano secondo quanto previsto dallo standard \verb*|POSIX| anche nei casi dove normalmente essi divergono dallo standard.\\
+Ad esempio, lo standard \verb*|POSIX| prevede che i comandi df e du utilizzino come unità di misura dei blocchi da \verb*|512 byte|, mentre le versioni \verb*|GNU| normalmente utilizzano come unità di misura dei blocchi da un \verb*|KiB|. Impostando la variabile d'ambiente \verb*|POSIXLY_CORRECT| ad un qualunque valore anch'essi useranno blocchi da \verb*|512 byte|.
+
+\subsection{TMPDIR}
+Specifica il pathname di una directory da usare per file temporanei. Normalmente non è impostata, in quanto le directory per i file temporanei sono già stabilite per convenzione (ovvero \verb*|/tmp| e \verb*|/var/tmp|), tuttavia è buona norma per i programmi che creano file temporanei di grosse dimensioni prendere in considerazione anche il valore di questa variabile prima di usare direttamente le directory standard.
+
+\subsection{TERM}
+Indica il tipo di terminale o terminale virtuale in uso, in modo che i programmi che offrono un'interfaccia a caratteri possano visualizzarla correttamente. Il valore è un identificativo in una base dati fornita dal sistema operativo (\verb*|termcap| o \verb*|terminfo|) che descrive le caratteristiche del terminale e le sequenze di caratteri necessarie a compiere azioni quali ad esempio lo spostamento del cursore o la cancellazione di una linea.\\
+Valori tipici sono "\verb*|xterm|" e "\verb*|vt100|"
+
+\subsection{TZ}
+Specifica la regola da usare per convertire dalla data di sistema (mantenuta internamente in tempo coordinato universale) nella data e ora locali all'utente, e viceversa. 
 
 
-
-
-
+\chapter{Informazioni e Configurazione di Sistema}
 
 \end{document}

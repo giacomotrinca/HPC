@@ -23,6 +23,21 @@
 \contentsline {section}{\numberline {5.2}Shell Scripts}{33}{section.5.2}%
 \contentsline {chapter}{\numberline {6}Variabili di Ambiente}{37}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Caratteristiche}{37}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Moduli di Ambiente}{38}{subsection.6.1.1}%
-\contentsline {section}{\numberline {6.2}Esempi di utilizzo}{39}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Variabili di Ambiente notevoli}{39}{section.6.3}%
+\contentsline {subsection}{\numberline {6.1.1}Vincoli}{38}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Moduli di Ambiente}{39}{subsection.6.1.2}%
+\contentsline {section}{\numberline {6.2}Esempi di utilizzo nella shell testuale.}{39}{section.6.2}%
+\contentsline {section}{\numberline {6.4}Variabili di ambiente notevoli}{41}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}EDITOR e VISUAL}{41}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}ENV}{41}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}HOME}{41}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}http proxy e ftp proxy}{41}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}LANG}{42}{subsection.6.4.5}%
+\contentsline {subsection}{\numberline {6.4.6}LD LIBRARY PATH}{42}{subsection.6.4.6}%
+\contentsline {subsection}{\numberline {6.4.7}LD PRELOAD}{42}{subsection.6.4.7}%
+\contentsline {subsection}{\numberline {6.4.8}MANPATH}{42}{subsection.6.4.8}%
+\contentsline {subsection}{\numberline {6.4.9}PATH}{43}{subsection.6.4.9}%
+\contentsline {subsection}{\numberline {6.4.10}POSIXLY CORRECT}{43}{subsection.6.4.10}%
+\contentsline {subsection}{\numberline {6.4.11}TMPDIR}{43}{subsection.6.4.11}%
+\contentsline {subsection}{\numberline {6.4.12}TERM}{43}{subsection.6.4.12}%
+\contentsline {subsection}{\numberline {6.4.13}TZ}{44}{subsection.6.4.13}%
+\contentsline {chapter}{\numberline {7}Informazioni e Configurazione di Sistema}{45}{chapter.7}%
