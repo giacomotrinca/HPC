@@ -902,4 +902,25 @@ Una funzione molto utile è la seguente. Di solito, quando creiamo una nuova car
 	}
 \end{verbatim}
 Vediamo che in questo caso la modifica comporta dei cambianti sostanziali. Le opzioni \verb*|"$1"| indicano il parametro che digitiamo subito dopo il nuovo comando \verb*|mkcd|. Questo parametro sarà ovviamente il nome della cartella che stiamo creando e nella quale ci sposteremo. 
+
+
+\chapter{Connessioni SSH}
+Secure SHell (\verb*|ssh|) è un protocollo che permette di stabilire una sessione remota cifrata tramite interfaccia a riga di comando con un altro \verb*|host| di una rete informatica. SSH è diventato uno standard di fatto per l'amministrazione remota di sistemi UNIX e di dispositivi di rete, rendendo obsoleto il protocollo telnet, giudicato troppo pericoloso per la sua mancanza di protezione contro le intercettazioni.\\
+Il client ed il server SSH sono installati o installabili su molte versioni di UNIX, GNU/Linux, macOS e Microsoft Windows. Inoltre è disponibile come strumento di amministrazione su alcuni apparati di rete. La \verb*|IANA| (Internet Assigned Numbers Authority) ha assegnato al servizio \verb*|SSH| la porta 22 \verb*|TCP|\footnote{Transmission Control Protocol: è un protocollo di rete a pacchetto di livello di trasporto, appartenente alla suite di protocolli Internet, che si occupa di controllo della trasmissione ovvero rendere affidabile la comunicazione dati in rete tra mittente e destinatario.} e \verb*|UDP|\footnote{Lo User Datagram Protocol (UDP), è uno dei principali protocolli di rete della suite di protocolli Internet. È un protocollo di livello di trasporto a pacchetto.}(A differenza del TCP, l'UDP è un protocollo di tipo connectionless, inoltre non gestisce il riordinamento dei pacchetti né la ritrasmissione di quelli persi, ed è perciò generalmente considerato di minore affidabilità), anche se è comunque possibile implementare il servizio SSH su altre porte non definite dalla IANA.
+
+Il comando su sistemi UNIX-like è il seguente: 
+\begin{verbatim}
+	ssh [opzioni] nomeutente@host [comando]
+\end{verbatim}
+
+Nei clusters, l'accesso avviene di solito attraverso \verb*|ssh|, che viene generalmente fornito dal software OpenSSH. Quest'ultimo è preinstallato di default in molte distribuzioni Linux. Prima di effettuare il login, verrà chiesta la password. Questo passaggio può essere bypassato impostando una chiave pubblica o privata, oppure nel caso in cui ci colleghiamo da un client Linux, possiamo installare il pacchetto \verb*|sshpass|, che ci consente di automatizzare il login nel server. La sintassi è:
+\begin{verbatim}
+	sshpass -p 'password' ssh nomeutente@host
+\end{verbatim}
+
+Una volta effettuato il login, avremo a disposizione la console del server. Possiamo anche avviare l'interfaccia grafica \verb*|Xorg|, e quindi un gestore delle finestre (\verb*|wm|) o un ambiente desktop (\verb*|DE|) se essi sono stati installati preventivamente, aggiungendo l'opzione \verb*|-X| al comando \verb*|ssh|. OpenSSH supporta la connessione multipla. Ovvero, se su una rete vi sono più servers possiamo collegarci a tutti i server contemporaneamente su diverse finestre del terminale. Possiamo anche collegarci con più account sullo stesso server, ovviamente. \\
+Tutti i files di configurazione si trovano nella cartella \verb*|.ssh|. Essi si possono editare, con un po' di accortezza. 
+
+
+
 \end{document}
