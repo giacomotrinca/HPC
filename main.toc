@@ -41,3 +41,5 @@
 \contentsline {subsection}{\numberline {6.4.12}TERM}{43}{subsection.6.4.12}%
 \contentsline {subsection}{\numberline {6.4.13}TZ}{44}{subsection.6.4.13}%
 \contentsline {chapter}{\numberline {7}Informazioni e Configurazione di Sistema}{45}{chapter.7}%
+\contentsline {section}{\numberline {7.1}La cartella /proc}{45}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Informazioni su CPU e RAM}{47}{subsection.7.1.1}%

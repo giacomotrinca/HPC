@@ -757,4 +757,109 @@ Specifica la regola da usare per convertire dalla data di sistema (mantenuta int
 
 \chapter{Informazioni e Configurazione di Sistema}
 
+\section{La cartella /proc}
+Come abbiamo visto prima, la cartella \verb*|/proc| contiene tutte le informazioni di sistema sotto forma di files di testo. Tali files non possono essere editati. Possiamo ad esempio vedere quale immagine del sistema viene lanciata all'avvio dal kernel digitando
+\begin{verbatim}
+	cat /proc/cmdline
+\end{verbatim}
+che dà come risultato:
+\begin{verbatim}
+	BOOT_IMAGE=/boot/vmlinuz-linux-lts root=UUID=4dfe8811-d2c8-4fd9-a03e-cea004e15b60 
+		rw loglevel=0 quiet splash	
+\end{verbatim}
+Vediamo che l'immagine di \verb*|BOOT| è un kernel \verb*|lts|\footnote{Long term support: ovvero un kernel che viene aggiornato solo quando si è \textit{sicuri} che i moduli e drivers funzionino sulla maggiorn parte delle macchine. In breve: è più stabile del semplice kernel Linux.}. Questa immagine viene caricata con diverse opzioni:
+\begin{itemize}
+	\item \verb*|root|=\verb*|UUID...|: indica l'etichetta del disco fisso che contiene la partizione Linux. 
+	\item \verb*|rw|: imposta i permessi dell'utente \verb*|root| sulla partizione che contiene Linux.
+	\item \verb*|loglevel=0|: questa variabile assume valori interi. Più è alto il numero associato e più il sistema, durante l'avvio, stampa su video informazioni aggiuntive. Tipo i moduli e drivers che vengono caricati, eventuali errori di montaggio di dispositivi interni ed esterni, ecc..
+	\item \verb*|quiet splash|: questa opzione sostituisce il log di sistema su video con l'immagine del produttore della nostra macchina.
+\end{itemize}
+Altri files danno maggiori informazioni, ad esempio:
+\begin{itemize}
+	\item  \verb*|/proc/apm| : Fornisce informazioni su Advanced Power Management, se è installato.
+	\item  \verb*|/proc/acpi|: una directory simile che offre molti dati sulla più moderna \textit{Advanced Configuration and Power Interface}. Ad esempio, per vedere se il laptop è collegato all'alimentazione CA, si può utilizzare  \verb*|cat /proc/acpi/ac_adapter/AC/stateper| ottenere "on line" o "off line". 
+	\item \verb*|proc/loadavg|: un file correlato che mostra il carico medio sul processore; le sue informazioni includono l'utilizzo della CPU nell'ultimo minuto, negli ultimi cinque minuti e negli ultimi 10 minuti, nonché il numero di processi attualmente in esecuzione.
+	\item \verb*|/proc/stat|: Fornisce anche statistiche, ma risale all'ultimo avvio.
+	\item \verb*|/proc/uptime|: un breve file che ha solo due numeri: quanti secondi la nostra sessione è rimasta attiva e quanti secondi è rimasta inattiva.
+	\item \verb*|/proc/devices| attualmente configurati e caricati : Visualizza tutti i dispositivi di caratteri e blocchi . 
+	\item \verb*|/proc/ide| e \verb*|/proc/scsi|: forniscono dati su dispositivi \verb*|IDE| e \verb*|SCSI|.
+	\item \verb*|/proc/ioports| : mostra informazioni sulle regioni utilizzate per la comunicazione \verb*|I/O| con tali dispositivi.
+	\item \verb*|/proc/dma| : Mostra i canali Direct Memory Access in uso.
+	\item \verb*|/proc/filesystems|: mostra quali tipi di filesystem sono supportati dal nostro kernel. Il file è fatto più o meno in questo modo:
+	\begin{verbatim}
+		nodev sysfs
+		nodev rootfs
+		nodev bdev
+		processo nodev
+		nodev cpuset
+		...alcune righe tagliate...
+		nodev ramfs
+		nodev hugetlbfs
+		codev nodev
+		est3
+		nodev usbfs
+		ext2
+		nodev autofs
+	\end{verbatim}
+
+\end{itemize}
+\subsection{Informazioni su CPU e RAM}
+ Ad esempio:
+\begin{verbatim}
+	cat /proc/cpuinfo
+\end{verbatim}
+da come risultato un output simile a questo, ripetuto per ogni \verb*|thread| del processore. 
+\begin{verbatim}
+	processor	: 0
+	vendor_id	: GenuineIntel
+	cpu family	: 6
+	model		: 141
+	model name	: 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+	stepping	: 1
+	microcode	: 0x42
+	cpu MHz		: 4600.000
+	cache size	: 24576 KB
+	physical id	: 0
+	siblings	: 16
+	core id		: 0
+	cpu cores	: 8
+	apicid		: 0
+	initial apicid	: 0
+	fpu		: yes
+	fpu_exception	: yes
+	cpuid level	: 27
+	wp		: yes
+\end{verbatim}
+dove sono state omesse le flags per questioni di privacy. Mentre per vedere le informazioni riguardanti la memoria possiamo digitare
+\begin{verbatim}
+	cat /proc/meminfo
+\end{verbatim}
+che dà come risultato le informazioni riguardanti la memoria \verb*|RAM|:
+\begin{verbatim}
+	MemTotal:       16079416 kB
+	MemFree:         9264608 kB
+	MemAvailable:   12265032 kB
+	Buffers:          277520 kB
+	Cached:          3314440 kB
+	SwapCached:            0 kB
+	Active:          1179848 kB
+	Inactive:        4496328 kB
+	Active(anon):      27656 kB
+	Inactive(anon):  2540332 kB
+	Active(file):    1152192 kB
+	Inactive(file):  1955996 kB
+	Unevictable:      359052 kB
+	Mlocked:              32 kB
+	SwapTotal:      17684200 kB
+	SwapFree:       17684200 kB
+	Dirty:               152 kB
+	.
+	.
+	.
+\end{verbatim}
+
+
+
+
+
 \end{document}
