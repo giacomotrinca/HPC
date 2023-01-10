@@ -46,3 +46,7 @@
 \contentsline {section}{\numberline {7.2}Configurazione della Shell}{48}{section.7.2}%
 \contentsline {subsection}{\numberline {7.2.1}Il file .bashrc}{48}{subsection.7.2.1}%
 \contentsline {chapter}{\numberline {8}Connessioni SSH}{51}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Autenticazione con OpenSSH}{52}{section.8.1}%
+\contentsline {subsection}{\numberline {8.1.1}Chiave Pubblica}{52}{subsection.8.1.1}%
+\contentsline {part}{II\hspace {1em}High Performance Computing}{55}{part.2}%
+\contentsline {chapter}{\numberline {9}Cos'è un HPC?}{57}{chapter.9}%
